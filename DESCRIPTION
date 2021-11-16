@@ -1,16 +1,19 @@
 Package: scrapeba
-Title: What the Package Does (One Line, Title Case)
+Title: Scrape and consolidate data on the German labour market
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Felix",
+           family = "Schier",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "felix.schier@t-online.de",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: Scrape and consolidate freely available data from the Bundesagentur für Arbeit on the German labour market.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Imports: 
+    rio
+URL: https://github.com/fschier/scrapeba
+BugReports: https://github.com/fschier/scrapeba/issues
