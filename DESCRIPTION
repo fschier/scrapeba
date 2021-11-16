@@ -14,6 +14,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
+    magrittr,
     rio
 URL: https://github.com/fschier/scrapeba
 BugReports: https://github.com/fschier/scrapeba/issues
