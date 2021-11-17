@@ -1,4 +1,4 @@
-## code to prepare `DATASET` dataset goes here
+# 1. DATASET --------------------------------------------------------------
 
 # Alle politisch selbständigen Gemeinden mit ausgewählten Merkmalen
 # https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/_inhalt.html
@@ -19,6 +19,7 @@ DATASET <- readxl::read_excel(path = "data-raw/AuszugGV3QAktuell.xlsx", sheet = 
 
 
 
+# 2. available_districts --------------------------------------------------
 
 # Search for all available ids that give a response
 get_resp <- function(id){
@@ -30,6 +31,24 @@ available_districts <- DATASET %>%
   dplyr::mutate(resp = purrr::map_chr(id, get_resp))
 
 
-usethis::use_data(DATASET, available_districts, internal = TRUE,  overwrite = TRUE)
+
+
+# kpi_names ---------------------------------------------------------------
+
+kpi_names <- c(
+  "arbeitssuchend", # 13, # Bestand an Arbeitssuchenden
+  "arbeitslos", # 15, # Bestand an Arbeitslosen
+  "arbeitslos_m", # 16, # Arbeitslosen M
+  "arbeitslos_w", # 17, # Arbeitslosen W
+  "arbeitslos_zugang", # 28, # Zugang an Arbeitslosen
+  "arbeitslos_abgang", # 35, # Abgang an Arbeitslosen
+  "arbeitslos_quote", # 42, # ALQ
+  "arbeitsstellen_zugang", # 62, # Zugang Gemeldete Arbeitstellen
+  "arbeitsstellen_jahreszugang", # 63, # Zugang seit Jahresbeginn
+  "arbeitsstellen" # 64, # Bestand gemeldete Arbeitstellen
+)
+
+
+usethis::use_data(DATASET, available_districts, kpi_names, internal = TRUE,  overwrite = TRUE)
 # All functions within the package can freely access the DATASET and available_districts datasets, but the user won’t see them.
 # to access the data within the package use: mypackage:::x

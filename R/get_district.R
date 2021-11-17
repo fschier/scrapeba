@@ -27,18 +27,35 @@ get_district <- function(id = "09571", year = "2021", month = "10"){
     rio::import(
       file = file,
       format = "xlsx",
-      which = 5
+      which = 5,
+      col_names = FALSE
       ))) %>%
-    dplyr::select(1,4)
+    dplyr::select(1,4) %>%
+    dplyr::rename(kpi = 1, value = 2)
 
-  district  <- data[3,1]
+  district  <- data[4,1]
 
   data <- data %>%
+    dplyr::slice(
+      13, # Bestand an Arbeitssuchenden
+      15, # Bestand an Arbeitslosen
+      16, # Arbeitslosen M
+      17, # Arbeitslosen W
+      28, # Zugang an Arbeitslosen
+      35, # Abgang an Arbeitslosen
+      42, # ALQ
+      62, # Zugang Gemeldete Arbeitstellen
+      63, # Zugang seit Jahresbeginn
+      64, # Bestand gemeldete Arbeitstellen
+    ) %>%
     dplyr::mutate(
       district = district,
       year = year,
       month = month
-    )
+    ) %>%
+    base::cbind(kpi_names = scrapeba:::kpi_names) %>%
+    dplyr::select(-kpi) %>%
+    tidyr::pivot_wider(names_from = kpi_names, values_from = value)
 
   return(data)
 
