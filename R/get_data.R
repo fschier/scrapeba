@@ -15,6 +15,9 @@ get_data <- function(year = "2021", month = "10"){
     dplyr::filter(resp == 200) %>%
     dplyr::pull(id)
 
+ pb = utils::txtProgressBar(min = 0, max = 400, initial = 0)
+ stepi = 0
+
   for(i in id){
     tmp <- get_district(id = i,  year = year, month = month)
 
@@ -23,7 +26,11 @@ get_data <- function(year = "2021", month = "10"){
       } else {
       data_output <- rbind(data_output, tmp)
       }
-    Sys.sleep(1)
+
+    stepi = stepi + 1
+    utils::setTxtProgressBar(pb, stepi)
+    base::close(pb)
+    base::Sys.sleep(1)
   }
 
   return(data_output)
