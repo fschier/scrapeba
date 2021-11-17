@@ -32,3 +32,4 @@ available_districts <- DATASET %>%
 
 usethis::use_data(DATASET, available_districts, internal = TRUE,  overwrite = TRUE)
 # All functions within the package can freely access the DATASET and available_districts datasets, but the user won’t see them.
+# to access the data within the package use: mypackage:::x
