@@ -18,3 +18,5 @@ Imports:
     rio
 URL: https://github.com/fschier/scrapeba
 BugReports: https://github.com/fschier/scrapeba/issues
+Depends: 
+    R (>= 2.10)

@@ -1,29 +1,33 @@
 
-#' Split a string
+
+
+
+
+
+#' get labour data for district and timestamp
 #'
-#' @param x A character vector with one element.
-#' @param split What to split on.
+#' @param id
+#' @param year
+#' @param month
 #'
-#' @return A character vector.
+#' @return A data.frame.
 #' @export
 #'
 #' @examples
-#' x <- "alfa,bravo,charlie,delta"
-#' strsplit(x, split = ",")
-strsplit1 <- function(x, split) {
-  strsplit(x, split = split)[[1]]
-}
-
+#' get_district(id = "09571", year = "2021", month = "10")
 
 
 get_district <- function(id = "09571", year = "2021", month = "10"){
 
+  # declase file url based on given 'id', 'year' and month'
   file <- paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/",
                  yearmonth,
                  "/ama/amr-amr/amr-",
                  id,
                  "-0-202110-xlsx.xlsx?__blob=publicationFile&v=1")
 
+
+  #import file and wrangle dataset
   data <- rio::import(
     file = file,
     format = "xlsx",
@@ -43,9 +47,7 @@ get_district <- function(id = "09571", year = "2021", month = "10"){
 }
 
 
-x %>%
-  select(1,4) %>% View() %>%
-  mutate(landkreis = )
+
 
 # https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202110/ama/amr-amr/amr-09571-0-202110-xlsx.xlsx?__blob=publicationFile&v=1
 
