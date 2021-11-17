@@ -1,14 +1,8 @@
-
-
-
-
-
-
-#' get labour data for district and timestamp
+#' Get labour data for district and timestamp
 #'
-#' @param id
-#' @param year
-#' @param month
+#' @param id A string or numeric value containing the district id.
+#' @param year A string or numeric value containing the year.
+#' @param month A string or numeric value containing the month.
 #'
 #' @return A data.frame.
 #' @export
@@ -21,28 +15,32 @@ get_district <- function(id = "09571", year = "2021", month = "10"){
 
   # declase file url based on given 'id', 'year' and month'
   file <- paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/",
-                 yearmonth,
+                 year,
+                 month,
                  "/ama/amr-amr/amr-",
                  id,
                  "-0-202110-xlsx.xlsx?__blob=publicationFile&v=1")
 
 
   #import file and wrangle dataset
-  data <- rio::import(
-    file = file,
-    format = "xlsx",
-    which = 5
-    ) %>%
-    select(1,4)
+  data <- base::suppressMessages(base::suppressWarnings(
+    rio::import(
+      file = file,
+      format = "xlsx",
+      which = 5
+      ))) %>%
+    dplyr::select(1,4)
 
   district  <- data[3,1]
 
   data <- data %>%
-    mutate(
+    dplyr::mutate(
       district = district,
       year = year,
       month = month
     )
+
+  return(data)
 
 }
 
