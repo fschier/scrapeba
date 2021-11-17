@@ -10,12 +10,25 @@ if (!file.exists("data-raw/AuszugGV3QAktuell.xlsx")) {
 }
 
 
-DATASET <- read_excel(path = "data-raw/AuszugGV3QAktuell.xlsx", sheet = 2, skip = 6, col_names = FALSE) %>%
-  select(3:5, 8) %>%
-  unite(id , 1:3, sep = "") %>%
-  rename(landkreis = 2) %>%
-  filter(!str_detect(id, pattern = "NA")) %>%
-  distinct(id, .keep_all = TRUE)
+DATASET <- readxl::read_excel(path = "data-raw/AuszugGV3QAktuell.xlsx", sheet = 2, skip = 6, col_names = FALSE) %>%
+  dplyr::select(3:5, 8) %>%
+  tidyr::unite(id , 1:3, sep = "") %>%
+  dplyr::rename(landkreis = 2) %>%
+  dplyr::filter(!stringr::str_detect(id, pattern = "NA")) %>%
+  dplyr::distinct(id, .keep_all = TRUE)
 
 
-usethis::use_data(DATASET, internal = TRUE, overwrite = TRUE)
+
+
+# Search for all available ids that give a response
+get_resp <- function(id){
+  httr::status_code(httr::GET(paste0("https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202108/ama/amr-amr/amr-", id,"-0-202108-xlsx.xlsx?__blob=publicationFile&v=1")))
+}
+
+
+available_districts <- DATASET %>%
+  dplyr::mutate(resp = purrr::map_chr(id, get_resp))
+
+
+usethis::use_data(DATASET, available_districts, internal = TRUE,  overwrite = TRUE)
+# All functions within the package can freely access the DATASET and available_districts datasets, but the user won’t see them.
