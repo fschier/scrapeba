@@ -19,7 +19,10 @@ get_district <- function(id = "09571", year = "2021", month = "10"){
                  month,
                  "/ama/amr-amr/amr-",
                  id,
-                 "-0-202110-xlsx.xlsx?__blob=publicationFile&v=1")
+                 "-0-",
+                 year,
+                 month,
+                 "-xlsx.xlsx?__blob=publicationFile&v=1")
 
 
   #import file and wrangle dataset
@@ -51,7 +54,8 @@ get_district <- function(id = "09571", year = "2021", month = "10"){
     dplyr::mutate(
       district = district,
       year = year,
-      month = month
+      month = month,
+      id = id
     ) %>%
     base::cbind(kpi_names = scrapeba:::kpi_names) %>%
     dplyr::select(-kpi) %>%
